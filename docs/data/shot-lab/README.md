@@ -1,0 +1,109 @@
+# Shot lab: which shots can carry synced dialogue (2026-10-03)
+
+> Archived copy. The `evidence/` rows this page cites are in `../sync-calibration/` (floor, controls,
+> warm-wide-min0); the other evidence notes, `pi-review.md` and the lab prompts were not published.
+
+## The question (2026-10-03)
+Are the dialogue rules (one speaker, a medium close-up, the face at least 10% of the frame, nothing at the mouth,
+~2 words a second, no grin or laugh, no movement) evidence-backed, or did we find the wrong cause? Can the rig allow
+more kinds of shots without losing sync?
+
+## What the evidence said before any new render
+1. **What the human saw was mostly the stitch drift.** Every film before 2026-10-03 played its voice ~90 ms earlier
+   after every cut; liminal-clowns' raw dialogue clips read 10/10 in sync on meter v2
+   (`docs/data/films/liminal-clowns-v2.jsonl`).
+2. **The rules came mostly from one commit** (91607e8, 2026-09-27 01:45) built on the old uncalibrated meter, a
+   two-seed A/B, a third-party guide, and a complaint that drift explains (a rule-by-rule trace of the transcripts,
+   commits and design notes: `evidence/rule-archaeology.md`). The "330-500 ms mouth lead" those rules cite does not reproduce
+   on the calibrated meter.
+3. **The framing rule is a measurement rule.** The gate called a face under 10% of the frame UNMEASURABLE; that
+   threshold was never tested below 12%. Warm's 9 UNMEASURABLE wide takes (shots 6, 18, 20) read in sync in 8 cases
+   (-2 to -78 ms, conf 5.5-9.4) once the meter may look (`evidence/warm-wide-min0.jsonl`).
+4. **The meter can see far smaller faces than 10%.** Real in-sync mouths shrunk onto a grey canvas, with planted
+   shifts: offsets recovered within 7 ms down to 4.5% of the frame height at the old detection scale, and down to
+   ~23-px faces (1.8%) with full-resolution detection; frozen mouths and swapped voices still fail at 2.5-3.5%
+   (`evidence/floor*.jsonl`, `evidence/controls.jsonl`). Meter v3 detects at 0.5 / 1.0 scale and uses a 32-px floor.
+5. **What the outside evidence supports** (`evidence/research-*.md`):
+   - LTX's real weakness is *who* speaks, not *when*. The LTX-2 report says its audio-video attention carries time,
+     not place.
+   - In MTAVG-Bench (human-judged), LTX-2.3 put the line in the right speaker's mouth 24% of the time and got the
+     turn-taking right 19% (Sora 2: 75% and 64%).
+   - On another benchmark its lip timing was the tightest.
+   - Lightricks' guide has no framing threshold, and its own example is a wide shot.
+   - Viewers see timing errors about equally in head, shoulder and body views (Steinmetz 1996), so a wide shot
+     does not hide bad sync. It only stops fine articulation from showing.
+
+## Results (2026-10-04 07:00; `summary.md`, `results.md`, `pi-review.md`, `evidence/f3-thorns-and-static-sync.md`)
+
+**66 of 69 first takes in sync across 35 kinds of shot** (2 seeds each, meter v3, exchanges scored per line). Three
+films add 28 more lines, all in sync.
+
+- **In sync on both seeds:**
+  - framing: medium close-up, waist up, knees up, full length; landscape medium and wide;
+  - people: a two-shot with a silent listener, over the shoulder, a group of four with one speaker, two people trading
+    lines in one shot (each line from its own face);
+  - angle and movement: profile (60-75 degrees), a walk-and-talk toward the camera or beside a dolly, an orbiting
+    camera;
+  - mouth and voice: a mic at the mouth, a coffee sip, laughing, shouting, whispering;
+  - timing: speech from frame 0, 3 or 29 words in 8 s;
+  - a painted clown.
+- **Every miss was a small face:** 100 px or more always in sync; 50-100 px 2 of 3; under 50 px 0 of 2. The meter
+  reads planted offsets on ~18-px real mouths, so these are the model's mouths. At the half-resolution stage a mouth
+  is about one 32-px latent cell.
+- **A speaker drawn small walks to the lens.** Wide stills came out wide, but in 6 of 6 takes the speaker walked in
+  to a medium close-up to deliver the line. "Stays planted, camera locked off" did not stop it. `[hold]` (the
+  shot's still again near the end, d07ceb0) kept the framing in 8 of 8 takes.
+- **`[cast]` composes at the portrait's scale.** `[layout]` (64185b6) draws the composition first, so a recurring
+  character can be small.
+- **The gate now measures an exchange per line** (cb93f05). M10 = one face speaking lines written for two people,
+  checked with a negative test.
+- **Visual misses:** one group take doubled Dana.
+- **Rules:** `rig/film-director.md` DIALOGUE (5af92c4), `skills/screenplay` speaking shots (e48269e), and the shot
+  menu `skills/film/references/dialogue-shots.md`.
+- **Next (phase C):** pi writes and directs a varied scene under the new rules (`prompt-phase-c.txt`).
+
+## The lab (this folder)
+- **Design:** one factor at a time around a control. The same place, the same plain-faced speaker (Dana), the same
+  14-word line, the same delivery and two seeds (4101, 4102); only the shot changes. Generated by `make_lab.py`.
+- **Projects:**
+  - `lab-portrait.txt`: tier 1, 16 conditions, 32 clips;
+  - `lab-landscape.txt`: medium and wide in 16:9, 4 clips;
+  - `lab-portrait-2.txt`: tier 2, 7 conditions, 14 clips.
+- **Render settings:** `SYNC_TRIES=1` (first takes only) and `SYNC_GATE=report` (nothing blocked). pi renders, then
+  reviews every clip (asked / shows). No redos.
+
+| id | condition | old rule it tests |
+|---|---|---|
+| C0 | medium close-up, frontal, static (control) | - |
+| F1-F5 | waist up, knees up, full length (1/2 frame), wide (1/4), extreme wide (1/8) | face >= 10% |
+| P1 | two-shot, Dana speaks, Leo silent | one visible person |
+| P2 | two-shot exchange, Dana then Leo in one clip | one speaker per shot |
+| P4 | over the shoulder (Leo's shoulder in the foreground) | one visible person |
+| A1 | profile | frontal or three-quarter |
+| M1 / M2 | walk-and-talk toward the camera / beside a dolly | no movement while speaking |
+| O1 | handheld mic at the mouth | nothing at the mouth |
+| O3 | laughing through the line | no grin or laugh |
+| T1 / T2 | speech from frame 0 / 3 words in 8 s | a beat first / ~2 words a second |
+| L1 / L2 | landscape medium / wide | pixels vs share of frame |
+| tier 2 | group of four, orbiting camera, coffee sip, fast talker, shouting, whispering, painted clown | |
+
+**Paused 14:30 after scene 9** (a higher-priority film took the GPU). Two findings so far:
+- Scenes 1-7 are all in sync on the first take: C0, F1 and F2 on both seeds, and F3 seed 4101 (confidence
+  10.5-11.4).
+- **The `[cast]` first-frame composer ignores the framing words.** The "knees up", "full length" and "wide from
+  across the street" lines all came out waist-up, with faces of 180-230 px. Scenes 1-9 stay as rendered, as a record
+  of that. From scene 10 the framing ladder is redrawn without `[cast]` (F3n, F4n, F5n: the image model composes the
+  shot from the line alone), then P1-T2 follow. The landscape wide shot (L2) also drops `[cast]`.
+
+**Scenes 36-41 test a rig fix:** `[cast=dana] [layout]`. `story.sh` first draws the composition from the line, then
+puts the cast portrait into it, so a recurring character can be small in the frame. The fix is
+`apply-layout-token.py`, applied by `start-lab.sh` before the resume, never while a `story.sh` runs.
+
+**Measures per clip:**
+- meter v3: offset, confidence, face size in pixels, the speaker track, another face mouthing the line, words heard;
+- for P2, each line's mouth checked separately;
+- Claude's frame review: did the shot come out as asked, and is the boxed speaker the right person;
+- pi's own review.
+
+**Next (phase C):** a draft skill, `skills/film/references/dialogue-shots.md`, built from these results. pi then
+writes a scene that uses varied shot types itself, and its sync and adherence are measured.

@@ -1,0 +1,9 @@
+Dialogue sync gate (meter v3, thresholds {"min_face_px": 32, "min_coverage": 0.5, "min_conf": 4.2, "min_words": 0.6, "edge_frames": 14, "early_ms": 45, "late_ms": 125}): 8/8 on-screen dialogue shots PASS
+sync 1: PASS, offset -70 ms (audio late), conf 7.04, coverage 1.00, words 14/14 [in sync] → keep
+sync 2: PASS, offset +4 ms (audio early), conf 9.57, coverage 1.00, words 10/10 [in sync] → keep
+sync 3: PASS, offset -52 ms (audio late), conf 9.83, coverage 1.00, words 18/18 [in sync] → keep
+sync 4: PASS, line 1: -34 ms conf 7.2 (face 1), line 2 Theo: -26 ms conf 8.58 (face 0), words 17/17 [in sync, 2 lines each from its own speaker] → keep
+sync 5: PASS, offset -24 ms (audio late), conf 8.2, coverage 1.00, words 13/13 [in sync] → keep
+sync 6: PASS, offset -23 ms (audio late), conf 9.52, coverage 1.00, words 15/16 [in sync] → keep
+sync 7: PASS, offset -44 ms (audio late), conf 9.47, coverage 1.00, words 19/19 [in sync] → keep
+sync 8: PASS, offset -23 ms (audio late), conf 9.66, coverage 1.00, words 10/10 [in sync] → keep

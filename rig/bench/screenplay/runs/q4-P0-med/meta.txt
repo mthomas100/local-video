@@ -1,0 +1,1 @@
+name=q4-P0-med prompt=P0-bare.txt model=vision-q4-400k thinking=medium rc=0 seconds=310 words=    2687

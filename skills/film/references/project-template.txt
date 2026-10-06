@@ -1,0 +1,31 @@
+# <one line: what this film is, who wrote it, when>
+# Rules: one continuous SHOT per line; its length is a per-shot choice from the beat ([secs=N] first on a
+# line, 5-15 s: 5-6 s an insert, 7-9 s a beat with a line, 12 s wordless motion, 15 s one
+# wordless showpiece; SECS= is only the default), no "cut to" inside
+# a line (the edit cuts); style-only bible (appended after each line by story.sh); every character
+# described at first mention in every line; every famous place described physically; each line opens
+# with its location; [noanchor] everywhere; "real" for animals, creatures and giant props; no "film
+# grain"; no lens words beyond "ordinary 40mm lens, clean rectangular full-frame image". Count words
+# with bash: awk -F'"' '/^"/{n++; print "shot "n": "split($2,a," ")" words"}' <this file>
+# Tokens after [noanchor]: [secs=N]; [quality] on the key shots (the dev model, about 4x the time);
+# [still] on every landmark shot and every shot of a recurring character (the rig draws the shot's first
+# frame with an image model from the line, then animates it: the real landmark, the same face); [seed=N]
+# only on a redo. [place=stories/refs/<film>/<image>] opens the shot on the user's reference photo of that place.
+# [cast=a,b] composes the first frame from the CAST portraits (one face per character). SOUND= is the ambience,
+# appended to every video prompt and never drawn; a shot's own sound is a last sentence "Sound: ...".
+NAME=<slug>; SIZE=720p; SECS=8; SEED=<fresh integer>; PORTRAIT=0; MODE=""; ANCHOR_STRENGTH=0; ANCHOR_FRAME=16
+# SECS= is the fallback only: put [secs=N] on every shot whose beat is not the average (a 5 s insert, a 12 s
+# flute solo, a 15 s wordless kiss), 5-15 s. Nothing clamps it (vidgen snaps it to 8k+1 frames at 24 fps; 20 s is
+# the model's cap), and a speaking shot stays <= 9 s (the dialogue rules were measured on 8 s shots). Sum the
+# per-shot seconds to quote the film's length and render cost.
+SOUND='<ambience of the whole film: room tone, a hum, distant music>'
+CAST=(
+  "<name>|<a man/woman of about N, build, face, hair, makeup, costume>"
+)
+BIBLE='Photorealistic live-action <genre>, present-day <place>, shot on an ARRI Alexa digital cinema camera, a clean rectangular full-frame image, shallow depth of field, natural light, real adult actors who resemble no celebrity, <performance note>.'
+SCENES=(
+"[noanchor] <Location described physically, time of day>. <Shot size and camera move>. <NAME>, <a woman/man of about N>, <trait>, <trait>, <trait>, <does one action>. <Light: source, direction, colour>. <Ambience>, <a specific sound>, <at most one short quoted line>."
+"[noanchor] [still] [quality] <a landmark or recurring-character shot: the opening frame described first> ..."
+"[noanchor] [place=stories/refs/<film>/<image>.png] [cast=<name>] <the place as in the photo>. <who is in the frame, how big, what they do> ..."
+"[noanchor] [secs=6] ..."
+)

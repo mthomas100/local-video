@@ -1,0 +1,1 @@
+name=b2-qwen38-P2g-1 prompt=P2g-craft-brief2.txt model=qwen38 thinking=medium rc=0 seconds=461 words=    3361

@@ -1,0 +1,1 @@
+name=q4-P2-off prompt=P2-craft.txt model=vision-q4-400k thinking=off rc=0 seconds=41 words=0

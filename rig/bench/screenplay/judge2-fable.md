@@ -1,0 +1,21 @@
+# Round 2 blind judge: Claude Fable 5.1 (subagent, 2026-10-03), verbatim output
+
+Letters decoded: P=q4-P2-med Q=claude (reference) R=qwen38-skill S=qwen38-P2 T=q4-skill.
+
+```json
+{"scores": {"P": {"funny": 4, "dialogue": 5, "cohesion": 5, "fidelity": 7, "directability": 6}, "Q": {"funny": 7, "dialogue": 9, "cohesion": 9, "fidelity": 9, "directability": 9}, "R": {"funny": 7, "dialogue": 7, "cohesion": 8, "fidelity": 9, "directability": 8}, "S": {"funny": 8, "dialogue": 7, "cohesion": 9, "fidelity": 9, "directability": 8}, "T": {"funny": 3, "dialogue": 4, "cohesion": 3, "fidelity": 7, "directability": 6}}, "rank": ["S", "Q", "R", "P", "T"]}
+```
+
+**Notes**
+
+**S** — Best moment: the police captain's "There is no clown. Last night's report was a very drunk man hugging a mailbox" with the clown thirty inches behind her, motionless, a lit jack-o'-lantern worn over his head; the empty-chair/folded-glasses/sad-horn button is the strongest ending in the set. Weakest moment: the dropped-verb dialect shared by five unrelated witnesses ("He ride my bus. He pay exact change", "He come to my son's party", "He pay me in quarters") reads as a writer's tic rather than five voices and risks landing as mockery; also several background gags (sea lion following in costume, a dozen pumpkins deflating in a wave, a cardboard skeleton raising a thumb) are unlikely to render and the skeleton one winks.
+
+**Q** — Best moment: Lieutenant Pruitt's "If you see the clown, do not approach him. And do not accept a balloon" while the clown hands a red balloon to the officer beside him, who takes it; Walt's "A clown, I can handle. It's the rent" is the best single line in all five. Weakest moment: the Raj and Tyler shots, where the background (scooter circle, skateboarding) merely coexists with or illustrates the line instead of turning it, and the escalation stays flat through the middle run of witnesses.
+
+**R** — Best moment: the Bev/Gordon porch pair — "He is a menace to this street, and I have the group chat to prove it" answered by "He oiled my gate. It has never closed so quietly. He is no menace" with the clown testing the hinge with one finger; Tanya's "That is a targeted subsidy, and I accept it" is a sharp SF-specific line. Weakest moment: May Ling's "Do you know what latex does to a colon?" is a swing that would not land, and lines like Dotty's and Chase's run 16-18 words, too long for an 8-second shot; the button is muddled by Diane cueing "Marco, come on down" for the forecast before the clown appears.
+
+**P** — Best moment: Rosa the nine-year-old's "He gave me candy and then it was raisins. That's not candy. That's betrayal," with the clown tossing raisins into his mouth behind her. Weakest moment: every reporter stand-up is the same triad in the same cadence ("No arrests. No clown. Just claims and calm." / "The clown remains at large. The witnesses remain certain. The city remains calm."), the sponge gag runs in two consecutive shots, the anchor signs off in shot 21 and the reporter throws "back to you, Marco" in shot 22, and the button has Dana finally see the clown, which spends the one rule the brief asked to keep.
+
+**T** — Best moment: the dog walker's "It was doing my taxes. I watched it file my 1040," dry, with the clown at a folding card table with a pencil. Weakest moment: the run of "It fixed my ferry and the ferry fixed the bay" / "It fixed my board and the board fixed me" / "It poured my shot and the shot poured me" is one template stamped three times; the weatherman reveal is spoiled in shot 1 (Bob is already at the weather map), and the order collapses at the end (reporter sign-off, anchor sign-off, then a new interview, then the button).
+
+**What separates the best from the rest:** S and Q both understand that the background must answer the line, not depict it — the gag is a parking cone lowered over the mirror of the "$11,000 Subaru", or an officer accepting the balloon the lieutenant just banned — and both keep a real broadcast spine that ends on a clown occupying the newsroom with nobody reacting. The lower three either illustrate the line literally (P, T) or let a single verbal formula do the work of many witnesses, and T and P both break the broadcast order at the finish, which kills the button before it arrives.

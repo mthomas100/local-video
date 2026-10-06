@@ -1,0 +1,11 @@
+# Smoke test for [place=], [cast=], SOUND= and the lip-sync nudge (2026-09-27): two 4 s shots at 480p portrait.
+# Shot 1 opens on a pool-corridor reference photo (not included) and a clown walks in; shot 2 is a speaking close-up composed from
+# the cast portrait in the backrooms photo (FLUX.2 klein). Not a film; its folder is parked after the test.
+NAME=place-smoke; SIZE=480p; SECS=4; SEED=5; PORTRAIT=1; ANCHOR_STRENGTH=0; ANCHOR_FRAME=16
+SOUND='the soft lapping of still water and a distant fluorescent hum'
+CAST=( "dad|A man of about fifty, tall and thin, a long tired face, grey stubble, receding dark hair, white clown face paint, a small red nose, a faded powder-blue satin clown suit with big white pom-pom buttons." )
+BIBLE='Photorealistic live action, present day, a clean rectangular full-frame image, soft even light, real adult actors who resemble no celebrity.'
+SCENES=(
+"[noanchor] [place=stories/refs/liminal-clowns/2-tiled-pool-corridor.png] In a curving corridor of cream square tiles flooded with still turquoise water, the father clown, a tall thin man of about fifty in a faded powder-blue satin clown suit, white face paint and a red nose, wades slowly into view from the far bend. The camera holds still. Sound: water ripples around his legs."
+"[noanchor] [place=stories/refs/liminal-clowns/3-yellow-backrooms.png] [cast=dad] In an endless empty office space with yellow-green patterned wallpaper and buzzing fluorescent panels, a medium close-up of the father clown facing the camera. He looks straight into the lens and says, in a deep tired voice: 'Stay close, we are nearly out of here.' The camera holds still."
+)

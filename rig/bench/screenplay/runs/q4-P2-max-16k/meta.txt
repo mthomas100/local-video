@@ -1,0 +1,1 @@
+name=q4-P2-max prompt=P2-craft.txt model=vision-q4-400k thinking=max rc=0 seconds=472 words=0 (stop=length: 16,384 output tokens all thinking, no text)

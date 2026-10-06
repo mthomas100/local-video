@@ -1,0 +1,4 @@
+agent-bigout/
+runs/*/session/
+runs/PAUSE
+runs/queue.pid

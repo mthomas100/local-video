@@ -1,0 +1,1 @@
+name=qwen38-skill prompt=skill model=qwen38 thinking=medium rc=0 seconds=341 words=0

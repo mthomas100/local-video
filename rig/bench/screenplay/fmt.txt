@@ -1,0 +1,11 @@
+How the film gets made (facts about the rig, so the screenplay is usable):
+- The film is about 3 minutes in 9:16 portrait, made of about 22 single continuous shots of 8 seconds (a short shot may be 5-6 s). A video model renders each shot separately from that shot's text alone: it cannot see the other shots. So every shot must describe in full the place (San Francisco landmarks described physically, e.g. "the Ferry Building, a long grey stone building with a tall clock tower"), every person in frame (name or role, age, three fixed visual traits), the action, the camera, the light, and a last "Sound: ..." sentence.
+- Recurring characters get one fixed description each, reused word for word, so they keep one face.
+- Lip sync works only when (measured): ONE visible speaker per speaking shot, in a medium close-up or close-up, facing the camera or three-quarter, nothing in front of the mouth (an interview microphone is held at the chest, below the chin); the spoken line fills the shot at about 2 words a second (12-16 words for 8 s); before the speech verb, what the face does (eyes, brows, breath), and after it, the voice in under 15 words (pitch, pace, where it lands); no smile or grin while speaking; the head does not lean, walk or look down while speaking. Anyone else in a speaking shot is silent.
+- On-screen text comes out garbled; don't rely on it.
+
+Write the screenplay in this structure:
+1. Title and a one-paragraph premise (the joke of the film and how it ends).
+2. Shape: aspect, length, shot count.
+3. Cast: one line per recurring character with the fixed description.
+4. The shots, numbered: for each, a bold header (shot type, place, length, who), then one paragraph that is the shot as the video model should see it: place, who is in frame and how big, the face cue, the speech verb, the delivery, the quoted line in single quotes, what happens in the background, the light, "Sound: ...".

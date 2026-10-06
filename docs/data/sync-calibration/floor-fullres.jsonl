@@ -1,0 +1,14 @@
+{"src": "2", "face_target": 0.025, "plant": "p0", "scale": 1.0, "expected_ms": -62, "offset_ms": -65, "err_ms": -3, "conf": 9.91, "face_h": 0.02, "verdict_min0": "PASS", "why": "in sync"}
+{"src": "2", "face_target": 0.025, "plant": "d200", "scale": 1.0, "expected_ms": -262, "offset_ms": -262, "err_ms": 0, "conf": 9.93, "face_h": 0.02, "verdict_min0": "FAIL", "why": "offset -262 ms (audio late)"}
+{"src": "7", "face_target": 0.025, "plant": "p0", "scale": 1.0, "expected_ms": -43, "offset_ms": -44, "err_ms": -1, "conf": 9.62, "face_h": 0.02, "verdict_min0": "PASS", "why": "in sync"}
+{"src": "7", "face_target": 0.025, "plant": "a160", "scale": 1.0, "expected_ms": 117, "offset_ms": 117, "err_ms": 0, "conf": 9.42, "face_h": 0.02, "verdict_min0": "FAIL", "why": "offset +117 ms (audio early)"}
+{"src": "16", "face_target": 0.025, "plant": "p0", "scale": 1.0, "expected_ms": -31, "offset_ms": -33, "err_ms": -2, "conf": 9.01, "face_h": 0.02, "verdict_min0": "PASS", "why": "in sync"}
+{"src": "16", "face_target": 0.025, "plant": "d200", "scale": 1.0, "expected_ms": -231, "offset_ms": -228, "err_ms": 3, "conf": 7.99, "face_h": 0.02, "verdict_min0": "FAIL", "why": "offset -228 ms (audio late)"}
+{"src": "11", "face_target": 0.018, "plant": "p0", "scale": 1.0, "expected_ms": -5, "offset_ms": -8, "err_ms": -3, "conf": 8.31, "face_h": 0.02, "verdict_min0": "PASS", "why": "in sync"}
+{"src": "11", "face_target": 0.018, "plant": "d200", "scale": 1.0, "expected_ms": -205, "offset_ms": -211, "err_ms": -6, "conf": 8.6, "face_h": 0.02, "verdict_min0": "FAIL", "why": "offset -211 ms (audio late)"}
+{"src": "2", "face_target": 0.018, "plant": "p0", "scale": 1.0, "expected_ms": -62, "offset_ms": -65, "err_ms": -3, "conf": 8.64, "face_h": 0.02, "verdict_min0": "PASS", "why": "in sync"}
+{"src": "2", "face_target": 0.018, "plant": "d200", "scale": 1.0, "expected_ms": -262, "offset_ms": -263, "err_ms": -1, "conf": 9.0, "face_h": 0.02, "verdict_min0": "FAIL", "why": "offset -263 ms (audio late)"}
+{"src": "11", "face_target": 0.014, "plant": "p0", "scale": 1.0, "expected_ms": -5, "offset_ms": -12, "err_ms": -7, "conf": 6.45, "face_h": 0.01, "verdict_min0": "PASS", "why": "in sync"}
+{"src": "11", "face_target": 0.014, "plant": "d200", "scale": 1.0, "expected_ms": -205, "offset_ms": -216, "err_ms": -11, "conf": 6.71, "face_h": 0.01, "verdict_min0": "FAIL", "why": "offset -216 ms (audio late)"}
+{"src": "2", "face_target": 0.014, "plant": "p0", "scale": 1.0, "expected_ms": -62, "offset_ms": -62, "err_ms": 0, "conf": 7.08, "face_h": 0.01, "verdict_min0": "PASS", "why": "in sync"}
+{"src": "2", "face_target": 0.014, "plant": "d200", "scale": 1.0, "expected_ms": -262, "offset_ms": -259, "err_ms": 3, "conf": 7.47, "face_h": 0.01, "verdict_min0": "FAIL", "why": "offset -259 ms (audio late)"}

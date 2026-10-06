@@ -1,0 +1,11 @@
+# Look test for halloween-clowns-sf: three candidate looks (candlelit gothic, neon rain
+# noir, pumpkin-witch spooky) for a spooky San Francisco Halloween film with scary clowns, spider
+# webs and giant pumpkins. Written by the studio chain, look-dev step.
+# One 2 s scene per look; BIBLE empty so each scene carries only its own style sentence (style-only, no story).
+NAME=look-halloween-clowns-sf; SIZE=480p; SECS=2; SEED=7; PORTRAIT=0; ANCHOR_STRENGTH=0; ANCHOR_FRAME=16
+BIBLE=''
+SCENES=(
+"[noanchor] [seed=7] On a foggy San Francisco alley at night, a scary clown, a man of about thirty, white face paint, a red nose, a tattered black-and-purple costume, the only person in the shot, turns toward the camera. Black and bone with one crimson accent, low key from one candle-warm streetlamp and a single red light, slow push-in, shallow depth of field, stone, velvet, iron, night fog. Dripping water, a music box, whispers."
+"[noanchor] [seed=8] On a foggy San Francisco street at night, a scary clown, a man of about thirty, white face paint, a red nose, a tattered black-and-purple costume, the only person in the shot, turns toward the camera. Magenta and cyan on black, low key from neon signs and headlights, handheld and close, shallow depth of field with rain on glass, wet leather, night rain. A rain bed, a distant siren, a saxophone."
+"[noanchor] [seed=9] On a foggy San Francisco street at night, a scary clown, a man of about thirty, white face paint, a red nose, a tattered black-and-purple costume, the only person in the shot, turns toward the camera. Pumpkin orange and deep violet on black, low key from a carved jack-o'-lantern glow and foggy streetlights, slow dolly and orbit, shallow depth of field, drifting fog, night. Wind chimes, creaking wood, sparse dry lines."
+)

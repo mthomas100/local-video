@@ -1,0 +1,10 @@
+# 2026-09-24 look-test: three candidate looks for the New York 2000 Slavic fairy tale (gray oppressive night,
+# neon signs, steampunk + Slavic costumes, bionic parts, robots). Written by the studio chain, look-dev step.
+# One 2 s scene per look; BIBLE empty so each scene carries only its own style sentence (style-only, no story).
+NAME=look-test; SIZE=480p; SECS=2; SEED=7; PORTRAIT=1; ANCHOR_STRENGTH=0; ANCHOR_FRAME=16
+BIBLE=''
+SCENES=(
+"[noanchor] [seed=7] Inside a grey night apartment, a woman in a wet steampunk leather coat, brass-rimmed goggles, a bionic steel arm, the only person in the shot, turns from the window toward the camera, rain on the glass and a magenta neon sign glowing behind her. Monochrome slate grey and bone, one magenta neon accent, low key from the neon sign and one streetlamp, handheld and close, shallow depth of field with rain on the glass, wet leather and copper trim, embroidered linen. Night rain, a distant siren, a synth pulse."
+"[noanchor] [seed=8] Inside a grey night apartment, a woman in a wet steampunk leather coat, brass-rimmed goggles, a bionic steel arm, the only person in the shot, turns from the window toward the camera, city fog and a cyan neon sign glowing behind her. Deep teal shadows and sodium orange, one cyan neon accent, low key from sodium lamps and the neon, slow steady dolly, deep focus, concrete, steel cables, wet asphalt, copper gears. A low hum, a distant horn, a solo cello."
+"[noanchor] [seed=9] Inside a grey night apartment, a woman in a wet steampunk leather coat, brass-rimmed goggles, a bionic steel arm, the only person in the shot, turns from the window toward the camera, a single crimson neon sign glowing behind her in the fog. Black and bone with one crimson accent, low key from candle-warm lamps and one red neon sign, slow push-in, shallow depth of field, carved wood, iron, velvet, brass, night fog. Dripping water, a music box, whispers."
+)

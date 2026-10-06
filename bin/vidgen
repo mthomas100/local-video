@@ -1,0 +1,279 @@
+#!/usr/bin/env python3
+"""vidgen — prompt in, video out, entirely on this Mac (built 2026-09-22).
+
+A thin wrapper over the ltx-2-mlx engine (~/repos/ltx-2-mlx, pure MLX on Metal)
+running the LTX-2.5 int8 pack in ~/models. It exists so nobody has to remember
+the engine's forty flags: pick a mode, a size, a length, and go.
+
+    vidgen "a heavy wooden door creaks slowly open"        # text -> video (+ audio)
+    vidgen -i photo.jpg "the camera slowly pushes in"       # image -> video
+    vidgen --voice                                          # talk the prompt (parakeet STT)
+    vidgen --quality "..."      # dev model + CFG two-stage: better, ~3x slower
+    vidgen --hq "..."           # res_2s sampler: best, slowest
+    vidgen --seconds 8 --size 720p --seed 7 "..."
+    vidgen extend  --video out.mp4 --seconds 2 "and then it slams shut"
+    vidgen retake  --video out.mp4 --start 1 --end 3 "a cat walks through"
+
+Every run writes <out>.mp4 plus <out>.json (prompt, settings, exact engine
+command, seed, wall time) under ~/Videos/vidgen, and appends one line to
+~/repos/local-video/logs/runs.tsv. Why: so any result can be reproduced and
+so the README's timing table can be regenerated from real data.
+"""
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+HOME = Path.home()
+ENGINE_DIR = HOME / "repos" / "ltx-2-mlx"
+ENGINE = ENGINE_DIR / ".venv" / "bin" / "ltx-2-mlx"
+MODELS = HOME / "models"
+PACKS = {"2.5": MODELS / "ltx-2.5-mlx-q8", "2.3": MODELS / "ltx-2.3-mlx-q8"}
+OUT_DIR = Path(os.environ.get("VIDGEN_OUT", HOME / "Videos" / "vidgen"))
+LOG_DIR = HOME / "repos" / "local-video" / "logs"
+RUNS_TSV = LOG_DIR / "runs.tsv"
+DICTATE = HOME / ".pi" / "agent" / "skills" / "dictate" / "scripts" / "dictate"
+FPS = 24  # LTX was trained at 24; the engine warns that other rates drift out of distribution.
+
+# Width x height presets. The engine rounds each axis DOWN to a multiple of 64
+# (measured 2026-09-22: 704x480 came out 704x448), so presets sit on that grid.
+SIZES = {
+    "480p": (704, 448),
+    "720p": (1280, 704),
+    "1080p": (1920, 1088),
+    "square": (704, 704),
+}
+
+
+def die(msg: str, code: int = 2) -> None:
+    print(f"vidgen: {msg}", file=sys.stderr)
+    sys.exit(code)
+
+
+def frames_for(seconds: float) -> int:
+    """LTX needs frames = 8k+1; snap the requested length to that grid."""
+    k = max(1, round(seconds * FPS / 8))
+    return 8 * k + 1
+
+
+def parse_size(s: str, portrait: bool) -> tuple[int, int]:
+    if s in SIZES:
+        w, h = SIZES[s]
+    else:
+        m = re.fullmatch(r"(\d+)x(\d+)", s)
+        if not m:
+            die(f"--size must be one of {', '.join(SIZES)} or WxH")
+        w, h = int(m.group(1)), int(m.group(2))
+    if portrait and w > h:
+        w, h = h, w
+    if w % 64 or h % 64:
+        die(f"size {w}x{h}: both sides must be multiples of 64 (the engine rounds down otherwise)")
+    return w, h
+
+
+def slug(text: str, n: int = 40) -> str:
+    s = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+    return s[:n].rstrip("-") or "clip"
+
+
+def record_voice(max_seconds: int) -> str:
+    """Record the mic with ffmpeg until Enter (or max_seconds), transcribe with the
+    same parakeet model pi's dictate skill uses, and return the words."""
+    if not DICTATE.exists():
+        die("voice needs the pi dictate skill at ~/.pi/agent/skills/dictate")
+    wav = Path("/tmp") / f"vidgen-voice-{os.getpid()}.wav"
+    cmd = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "avfoundation",
+           "-i", ":0", "-t", str(max_seconds), "-ac", "1", "-ar", "16000", str(wav)]
+    print(f"recording… speak your prompt, then press Enter (auto-stop at {max_seconds}s)")
+    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+    try:
+        sys.stdin.readline()
+    except KeyboardInterrupt:
+        pass
+    if proc.poll() is None:
+        try:
+            proc.stdin.write(b"q\n"); proc.stdin.flush()  # type: ignore[union-attr]
+        except BrokenPipeError:
+            pass
+    proc.wait(timeout=15)
+    if not wav.exists() or wav.stat().st_size < 1000:
+        die("nothing recorded (is the microphone allowed for the terminal?)")
+    print("transcribing…")
+    res = subprocess.run([str(DICTATE), "transcribe", str(wav)], capture_output=True, text=True)
+    wav.unlink(missing_ok=True)
+    text = res.stdout.strip()
+    if res.returncode or not text:
+        die(f"transcription failed: {res.stderr.strip()[-400:]}")
+    return text
+
+
+def hold_gpu(reason: str) -> None:
+    """One GPU lock for the Mac (2026-10-04, ~/repos/local-rig/docs/hold.md): run this command inside the GPU hold by
+    re-executing it under `hold run`, which queues behind other GPU jobs, lets model calls in flight finish and unloads
+    the LLM first. Inside story.sh, run-queue.sh or render_and_wait it is already held (HOLD_ID) and nothing happens;
+    with no `hold` installed the command runs as before."""
+    if os.environ.get("HOLD_ID") or not shutil.which("hold"):
+        return
+    os.execvp("hold", ["hold", "run", "--kind", "render", "--reason", reason, "--",
+                       sys.executable, os.path.abspath(sys.argv[0]), *sys.argv[1:]])
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(prog="vidgen", description=__doc__.split("\n\n")[0],
+                                 formatter_class=argparse.RawDescriptionHelpFormatter,
+                                 epilog=__doc__.split("\n", 1)[1])
+    ap.add_argument("verb", nargs="?", default="generate",
+                    help="generate (default) | extend | retake | info")
+    ap.add_argument("prompt", nargs="?", help="what to make (or use --voice)")
+    ap.add_argument("-i", "--image", help="start frame for image-to-video")
+    ap.add_argument("--voice", action="store_true", help="speak the prompt instead of typing it")
+    ap.add_argument("--record-max", type=int, default=60, help="voice: auto-stop after N s (60)")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--fast", action="store_true", help="distilled pipeline, no CFG (default)")
+    mode.add_argument("--quality", action="store_true", help="dev model + CFG two-stage")
+    mode.add_argument("--hq", action="store_true", help="res_2s sampler two-stage (slowest)")
+    ap.add_argument("--seconds", type=float, help="clip length; omitted = model predicts it from the prompt")
+    ap.add_argument("--auto-duration", default="2:10", help="MIN:MAX bounds when --seconds is omitted (2:10)")
+    ap.add_argument("--size", default="720p", help=f"{', '.join(SIZES)} or WxH (720p)")
+    ap.add_argument("--portrait", action="store_true", help="swap to 9:16")
+    ap.add_argument("--seed", type=int, default=-1, help="-1 = random")
+    ap.add_argument("--model", default="2.5", help="2.5 | 2.3 | /path/to/pack (2.5)")
+    ap.add_argument("--no-audio", action="store_true", help="skip the audio track")
+    ap.add_argument("--raw-audio", action="store_true",
+                    help="keep the engine's audio level (default: normalise; LTX output peaks around -38 dB)")
+    ap.add_argument("--no-open", action="store_true", help="don't open the result in QuickTime")
+    ap.add_argument("-o", "--output", help="output .mp4 (default: ~/Videos/vidgen/<stamp>-<slug>.mp4)")
+    ap.add_argument("--video", help="extend/retake: the source clip")
+    ap.add_argument("--start", type=float, help="retake: start second")
+    ap.add_argument("--end", type=float, help="retake: end second")
+    ap.add_argument("--direction", choices=["after", "before"], default="after", help="extend: which end")
+    ap.add_argument("--dry-run", action="store_true", help="print the engine command and exit")
+    ap.add_argument("--force", action="store_true", help="start even if another render is running (slow)")
+    # Everything after a literal `--` goes to the engine untouched (e.g. `-- --image ref.png 0 0.85`).
+    argv = sys.argv[1:]
+    extra: list[str] = []
+    if "--" in argv:
+        cut = argv.index("--")
+        argv, extra = argv[:cut], argv[cut + 1:]
+    args = ap.parse_args(argv)
+    VERBS = {"generate", "extend", "retake", "info"}
+    if args.verb not in VERBS:  # `vidgen "a prompt"`: the first positional is the prompt
+        if args.prompt:
+            die(f"unknown verb {args.verb!r} (verbs: {', '.join(sorted(VERBS))})")
+        args.verb, args.prompt = "generate", args.verb
+
+    if not ENGINE.exists():
+        die(f"engine not installed at {ENGINE}; run ~/repos/local-video/setup.sh")
+    pack = PACKS.get(args.model, Path(args.model).expanduser())
+    if args.verb == "info":
+        os.execv(str(ENGINE), [str(ENGINE), "info", "--model", str(pack)])
+    if not args.dry_run and not args.force:
+        hold_gpu("vidgen " + (Path(args.output).stem if args.output else (args.prompt or "voice")[:40]))
+        # 2026-09-22: two renders at once swapped 27 GB and ran 5x slower each. One at a time.
+        others = subprocess.run(["pgrep", "-f", "ltx-2-mlx generate|ltx-2-mlx extend|ltx-2-mlx retake"],
+                                capture_output=True, text=True).stdout.split()
+        others = [pid for pid in others if int(pid) != os.getpid()]
+        if others:
+            die(f"a render is already running (pid {others[0]}); wait for it, or --force to run anyway")
+    if not args.dry_run and (not pack.exists() or not any(pack.glob("transformer-*.safetensors"))):
+        die(f"model pack missing or incomplete at {pack}; run ~/repos/local-video/setup.sh")
+
+    prompt = args.prompt
+    if args.voice:
+        prompt = record_voice(args.record_max)
+        print(f"heard: {prompt!r}")
+    if not prompt:
+        die("give a prompt (or --voice)")
+    is25 = "2.5" in pack.name
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
+    out = Path(args.output).expanduser() if args.output else OUT_DIR / f"{stamp}-{slug(prompt)}.mp4"
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    cmd = [str(ENGINE), args.verb, "--prompt", prompt, "--output", str(out),
+           "--model", str(pack), "--seed", str(args.seed)]
+    if args.verb == "generate":
+        w, h = parse_size(args.size, args.portrait)
+        cmd += ["--width", str(w), "--height", str(h), "--frame-rate", str(FPS)]
+        if args.hq:
+            cmd.append("--two-stages-hq")
+        elif args.quality:
+            cmd.append("--two-stage")
+        else:
+            cmd.append("--distilled")
+        if args.seconds is not None:
+            cmd += ["--frames", str(frames_for(args.seconds))]
+        elif is25:
+            cmd += ["--auto-duration", args.auto_duration]
+        else:
+            cmd += ["--frames", str(frames_for(5))]  # 2.3 has no duration predictor
+        if args.image:
+            cmd += ["--image", str(Path(args.image).expanduser())]
+        if args.no_audio:
+            cmd.append("--no-audio")
+    elif args.verb == "extend":
+        if not args.video:
+            die("extend needs --video")
+        n = frames_for(args.seconds or 2)
+        cmd += ["--video", str(Path(args.video).expanduser()), "--extend-frames", str(max(1, (n - 1) // 8)),
+                "--direction", args.direction]
+    elif args.verb == "retake":
+        if not args.video or args.start is None or args.end is None:
+            die("retake needs --video, --start and --end")
+        cmd += ["--video", str(Path(args.video).expanduser()), "--start", str(args.start), "--end", str(args.end)]
+    else:
+        die(f"unknown verb {args.verb}")
+    cmd += extra
+
+    if args.dry_run:
+        print(" ".join(repr(c) if " " in c else c for c in cmd))
+        return
+
+    print(f"→ {out.name}  [{pack.name}, {'hq' if args.hq else 'quality' if args.quality else 'fast'}]")
+    t0 = time.time()
+    res = subprocess.run(cmd, cwd=ENGINE_DIR)
+    wall = round(time.time() - t0, 1)
+    engine_rev = subprocess.run(["git", "-C", str(ENGINE_DIR), "rev-parse", "--short", "HEAD"],
+                                capture_output=True, text=True).stdout.strip()
+    meta = {"prompt": prompt, "image": args.image, "verb": args.verb, "pack": pack.name,
+            "mode": "hq" if args.hq else "quality" if args.quality else "fast",
+            "size": args.size, "seconds": args.seconds, "seed": args.seed, "command": cmd,
+            "engine_commit": engine_rev, "wall_seconds": wall, "exit": res.returncode,
+            "when": dt.datetime.now().isoformat(timespec="seconds")}
+    out.with_suffix(".json").write_text(json.dumps(meta, indent=2))
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    with RUNS_TSV.open("a") as f:
+        f.write("\t".join([meta["when"], pack.name, meta["mode"], args.size, str(args.seconds),
+                           str(wall), str(res.returncode), out.name, prompt.replace("\t", " ")[:80]]) + "\n")
+    if res.returncode:
+        die(f"engine exited {res.returncode} after {wall}s", res.returncode)
+    if not args.no_audio and not args.raw_audio and shutil.which("ffmpeg"):
+        # Measured 2026-09-22: LTX-2.5 audio came out at mean -53 dB / peak -38 dB, inaudible
+        # next to normal media. EBU loudnorm to -16 LUFS is the streaming-platform level.
+        tmp = out.with_name(out.stem + ".norm.mp4")
+        norm = subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(out),
+                               "-c:v", "copy", "-af", "loudnorm=I=-16:TP=-1.5:LRA=11", "-c:a", "aac",
+                               "-b:a", "192k", str(tmp)])
+        if norm.returncode == 0 and tmp.exists():
+            tmp.replace(out)
+            meta["audio"] = "loudnorm I=-16"
+            out.with_suffix(".json").write_text(json.dumps(meta, indent=2))
+        else:
+            tmp.unlink(missing_ok=True)
+            print("warning: audio normalisation failed; kept the engine's level", file=sys.stderr)
+    print(f"done in {wall}s → {out}")
+    if not args.no_open and shutil.which("open") and sys.stdout.isatty():
+        subprocess.run(["open", str(out)])
+
+
+if __name__ == "__main__":
+    main()

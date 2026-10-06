@@ -1,0 +1,1 @@
+name=q4-P2-max64k prompt=P2-craft.txt model=vision-q4-400k thinking=max rc=0 seconds=909 words=    4042

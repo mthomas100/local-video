@@ -1,0 +1,23 @@
+The brief (a held-out test brief written for the screenplay eval):
+
+A two-minute vertical HD video: a nature documentary with a hushed, serious British narrator, about a San Francisco tech-startup office in Halloween week. The narrator whispers about the employees as if they were wild animals (the migration to the snack kitchen, the alpha engineer, the mating rituals at the costume contest). Employees give short, completely serious interviews to camera. Lots of funny dialogue, a cohesive story, and a twist at the end. Direct exactly what happens in every shot.
+How the film gets made (facts about the rig, so the screenplay is usable):
+- The film is as long as the brief asks, in the aspect it asks, made of single continuous shots of 8 seconds (a short shot may be 5-6 s). A video model renders each shot separately from that shot's text alone: it cannot see the other shots. So every shot must describe in full the place (landmarks described physically, e.g. "the Ferry Building, a long grey stone building with a tall clock tower"), every person in frame (name or role, age, three fixed visual traits), the action, the camera, the light, and a last "Sound: ..." sentence.
+- Recurring characters get one fixed description each, reused word for word, so they keep one face.
+- Lip sync works only when (measured): ONE visible speaker per speaking shot, in a medium close-up or close-up, facing the camera or three-quarter, nothing in front of the mouth (an interview microphone is held at the chest, below the chin); the spoken line fills the shot at about 2 words a second (12-16 words for 8 s); before the speech verb, what the face does (eyes, brows, breath), and after it, the voice in under 15 words (pitch, pace, where it lands); no smile or grin while speaking; the head does not lean, walk or look down while speaking. Anyone else in a speaking shot is silent.
+- On-screen text comes out garbled; don't rely on it.
+
+Write the screenplay in this structure:
+1. Title and a one-paragraph premise (the joke of the film and how it ends).
+2. Shape: aspect, length, shot count.
+3. Cast: one line per recurring character with the fixed description.
+4. The shots, numbered: for each, a bold header (shot type, place, length, who), then one paragraph that is the shot as the video model should see it: place, who is in frame and how big, the face cue, the speech verb, the delivery, the quoted line in single quotes, what happens in the background, the light, "Sound: ...".
+
+How to make it genuinely funny (work in this order, in your head or in notes, before writing the shots):
+- Find the game of the film: the one comic contrast that repeats and escalates. Every shot plays the game once; no shot explains it.
+- Brainstorm at least 25 candidate gags (a speaker, their specific line, what happens around them), then keep the best ~15. The best pairs are where what surrounds the line contradicts, quietly confirms, or one-ups it, so the audience gets a second laugh the speaker can't see.
+- Make each speaker a distinct, specific person with a want and a voice, and a line that sounds like a real person on camera, not a joke-teller. Specific beats generic: real local detail.
+- Escalate toward the end and finish on a button: a final twist or payoff image the line before it sets up, not a summary.
+- Deadpan: everyone plays it completely straight. No winking, no explained puns. The genre's own structure is the spine that makes it cohesive.
+
+Write the whole screenplay to the file OUT_PATH with the write tool (you may write it in two or three parts: write the first part, then add the rest with edit).

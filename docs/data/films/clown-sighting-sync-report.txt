@@ -1,0 +1,20 @@
+Dialogue sync gate (meter v2, thresholds {"min_face": 0.1, "min_coverage": 0.5, "min_conf": 4.2, "min_words": 0.6, "edge_frames": 14, "early_ms": 45, "late_ms": 125}): 19/19 on-screen dialogue shots PASS
+sync 2: PASS, offset -62 ms (audio late), conf 10.18, coverage 1.00, words 16/16 [in sync] → keep
+sync 3: PASS, offset -34 ms (audio late), conf 10.12, coverage 1.00, words 14/14 [in sync] → keep
+sync 4: PASS, offset -53 ms (audio late), conf 10.81, coverage 1.00, words 14/14 [in sync] → keep
+sync 5: PASS, offset -1 ms (audio late), conf 9.05, coverage 1.00, words 16/16 [in sync] → keep
+sync 6: PASS, offset -18 ms (audio late), conf 8.34, coverage 1.00, words 13/14 [in sync] → keep
+sync 7: PASS, offset -42 ms (audio late), conf 10.07, coverage 1.00, words 14/14 [in sync] → keep
+sync 9: PASS, offset -25 ms (audio late), conf 8.54, coverage 1.00, words 14/14 [in sync] → keep
+sync 10: PASS, offset -3 ms (audio late), conf 10.94, coverage 1.00, words 15/15 [in sync] → keep
+sync 11: PASS, offset -5 ms (audio late), conf 10.06, coverage 1.00, words 16/16 [in sync] → keep
+sync 12: PASS, offset -36 ms (audio late), conf 10.04, coverage 1.00, words 13/13 [in sync] → keep
+sync 13: PASS, offset -23 ms (audio late), conf 10.18, coverage 1.00, words 14/14 [in sync] → keep
+sync 14: PASS, offset -41 ms (audio late), conf 9.79, coverage 1.00, words 13/13 [in sync] → keep
+sync 15: PASS, offset +2 ms (audio early), conf 10.47, coverage 1.00, words 13/13 [in sync] → keep
+sync 16: PASS, offset -31 ms (audio late), conf 9.73, coverage 1.00, words 13/14 [in sync] → keep
+sync 17: PASS, offset -43 ms (audio late), conf 11.5, coverage 1.00, words 14/14 [in sync] → keep
+sync 18: PASS, offset -47 ms (audio late), conf 9.83, coverage 1.00, words 15/15 [in sync] → keep
+sync 19: PASS, offset -39 ms (audio late), conf 9.04, coverage 1.00, words 12/12 [in sync] → keep
+sync 20: PASS, offset -38 ms (audio late), conf 10.7, coverage 1.00, words 13/14 [in sync] → keep
+sync 21: PASS, offset -33 ms (audio late), conf 11.27, coverage 1.00, words 14/14 [in sync] → keep

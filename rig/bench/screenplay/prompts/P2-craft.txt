@@ -1,0 +1,24 @@
+The brief (paraphrased for this public copy; the bench ran on the original dictated wording):
+
+A cohesive, well-directed, roughly three-minute vertical (9:16, HD) video in the form of a local nightly-news report from San Francisco. A reporter interviews people about a clown sighting; each witness describes something the clown did. In the background of every interview the clown is always doing something absurd, never the focus of the shot, and nobody notices. There may be a newsroom and an anchor. Absurdist, humorous, lots of good dialogue and a cohesive narrative. Write the full script and direct exactly what happens in every shot, leaving nothing to the video model. Give it a Halloween theme wherever possible.
+
+How the film gets made (facts about the rig, so the screenplay is usable):
+- The film is about 3 minutes in 9:16 portrait, made of about 22 single continuous shots of 8 seconds (a short shot may be 5-6 s). A video model renders each shot separately from that shot's text alone: it cannot see the other shots. So every shot must describe in full the place (San Francisco landmarks described physically, e.g. "the Ferry Building, a long grey stone building with a tall clock tower"), every person in frame (name or role, age, three fixed visual traits), the action, the camera, the light, and a last "Sound: ..." sentence.
+- Recurring characters get one fixed description each, reused word for word, so they keep one face.
+- Lip sync works only when (measured): ONE visible speaker per speaking shot, in a medium close-up or close-up, facing the camera or three-quarter, nothing in front of the mouth (an interview microphone is held at the chest, below the chin); the spoken line fills the shot at about 2 words a second (12-16 words for 8 s); before the speech verb, what the face does (eyes, brows, breath), and after it, the voice in under 15 words (pitch, pace, where it lands); no smile or grin while speaking; the head does not lean, walk or look down while speaking. Anyone else in a speaking shot is silent.
+- On-screen text comes out garbled; don't rely on it.
+
+Write the screenplay in this structure:
+1. Title and a one-paragraph premise (the joke of the film and how it ends).
+2. Shape: aspect, length, shot count.
+3. Cast: one line per recurring character with the fixed description.
+4. The shots, numbered: for each, a bold header (shot type, place, length, who), then one paragraph that is the shot as the video model should see it: place, who is in frame and how big, the face cue, the speech verb, the delivery, the quoted line in single quotes, what happens in the background, the light, "Sound: ...".
+
+How to make it genuinely funny (work in this order, in your head or in notes, before writing the shots):
+- Find the game of the film: the one comic contrast that repeats and escalates (here: sincere, serious foreground vs the absurd thing the clown is quietly doing behind them, which nobody notices). Every shot plays the game once; no shot explains it.
+- Brainstorm at least 25 candidate gags (a witness, their specific claim, the background action), then keep the best ~15. The best pairs are where the background contradicts, literally illustrates, or one-ups the line, so the audience gets a second laugh the speaker can't see.
+- Make each witness a distinct, specific person with a want and a voice (an aggrieved car owner, a lonely tech worker, a jaded old-timer), and a line that sounds like a real person on the evening news, not a joke-teller. Specific beats generic: real local detail (neighbourhoods, rent, fog, the bus, burritos, sea lions).
+- Escalate: the claims and background actions get bigger toward the end; the police deny everything while the clown is right there; finish on a button: a final twist or payoff image, not a summary.
+- Deadpan: everyone plays it completely straight. No winking, no puns explained, no "LOL so random". The newsroom framing (anchor intro, reporter stand-ups, sign-off, back to the studio) is the spine that makes it cohesive.
+
+Write the whole screenplay to the file OUT_PATH with the write tool (you may write it in two or three parts: write the first part, then add the rest with edit).

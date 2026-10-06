@@ -1,0 +1,1 @@
+name=q4-P3-med prompt=P3-revise.txt model=vision-q4-400k thinking=medium rc=0 seconds=810 words=    3295

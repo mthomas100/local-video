@@ -1,0 +1,36 @@
+name=q4-P1-med prompt=P1-format.txt model=vision-q4-400k thinking=medium rc=1 seconds=697 words=0
+name=q4-P2-med prompt=P2-craft.txt model=vision-q4-400k thinking=medium rc=1 seconds=4 words=0
+words=    3384
+name=q4-P2-med prompt=P2-craft.txt model=vision-q4-400k thinking=medium rc=0 seconds=720 words=    4335
+name=q4-P3-med prompt=P3-revise.txt model=vision-q4-400k thinking=medium rc=1 seconds=17 words=0
+name=q4-P2-off prompt=P2-craft.txt model=vision-q4-400k thinking=off rc=1 seconds=5 words=0
+paused 11:50
+name=q4-P1-med prompt=P1-format.txt model=vision-q4-400k thinking=medium rc=143 seconds=836 words=    4290
+paused 12:10
+name=q4-P2-med prompt=P2-craft.txt model=vision-q4-400k thinking=medium rc=0 seconds=755 words=    3792
+name=q4-P3-med prompt=P3-revise.txt model=vision-q4-400k thinking=medium rc=0 seconds=810 words=    3295
+name=q4-P2-off prompt=P2-craft.txt model=vision-q4-400k thinking=off rc=0 seconds=41 words=0
+name=q4-P2-max prompt=P2-craft.txt model=vision-q4-400k thinking=max rc=0 seconds=472 words=0
+paused 12:53
+./queue4.sh:15: parse error near `\n'
+paused 12:55
+name=q2-P2-med prompt=P2-craft.txt model=vision-500k thinking=medium rc=0 seconds=669 words=    3644
+paused 13:13
+name=qwen38-P2 prompt=P2-craft.txt model=qwen38 thinking=medium rc=0 seconds=622 words=    6320
+name=q4-P2-max64k prompt=P2-craft.txt model=vision-q4-400k thinking=max rc=0 seconds=909 words=    4042
+OKQUEUE DONE 13:41
+name=qwen38-skill prompt=skill model=qwen38 thinking=medium rc=0 seconds=341 words=0
+name=q4-skill prompt=skill model=vision-q4-400k thinking=medium rc=0 seconds=522 words=0
+OKQUEUE DONE 20:48
+name=qwen38-skill prompt=skill model=qwen38 thinking=medium rc=0 seconds=400 words=    3849
+name=q4-skill prompt=skill model=vision-q4-400k thinking=medium rc=0 seconds=880 words=    2467
+OKQUEUE DONE 21:10
+name=b2-qwen38-P2g-1 prompt=P2g-craft-brief2.txt model=qwen38 thinking=medium rc=0 seconds=461 words=    3361
+name=b2-qwen38-skill-1 prompt=skill model=qwen38 thinking=medium rc=0 seconds=506 words=    2390
+name=b2-qwen38-P2g-2 prompt=P2g-craft-brief2.txt model=qwen38 thinking=medium rc=0 seconds=334 words=    3450
+name=b2-qwen38-skill-2 prompt=skill model=qwen38 thinking=medium rc=0 seconds=467 words=    2784
+name=b2-q4-P2g-1 prompt=P2g-craft-brief2.txt model=vision-q4-400k thinking=medium rc=0 seconds=489 words=    1988
+name=b2-q4-skill-1 prompt=skill model=vision-q4-400k thinking=medium rc=0 seconds=718 words=0
+name=b2-q4-P2g-2 prompt=P2g-craft-brief2.txt model=vision-q4-400k thinking=medium rc=0 seconds=461 words=0
+name=b2-q4-skill-2 prompt=skill model=vision-q4-400k thinking=medium rc=0 seconds=1409 words=0
+OKQUEUE DONE 08:01

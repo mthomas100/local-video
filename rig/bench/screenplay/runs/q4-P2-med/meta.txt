@@ -1,0 +1,1 @@
+name=q4-P2-med prompt=P2-craft.txt model=vision-q4-400k thinking=medium rc=0 seconds=755 words=    3792

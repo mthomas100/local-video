@@ -1,0 +1,9 @@
+# Smoke test for the local-agent film rig (2026-09-23): two 5 s scenes at 480p, about a minute each,
+# to exercise render_and_wait, review_scenes and redo_scenes end to end. Not a film; its folder is
+# deleted after the test. Rules as in skills/film (style bible after the scene, location first).
+NAME=rig-smoke; SIZE=480p; SECS=5; SEED=5; PORTRAIT=0; ANCHOR_STRENGTH=0; ANCHOR_FRAME=16
+BIBLE='Photorealistic live action, present day, shot on an ARRI Alexa digital cinema camera with an ordinary 40mm lens, a clean rectangular full-frame image, shallow depth of field, natural light, real adult actors who resemble no celebrity.'
+SCENES=(
+"[noanchor] Inside a small bright bakery at dawn. Nadia, a woman of about thirty, curly dark hair, flour on her cheek, green apron, the only person in the shop, slides a tray of bread out of the oven and laughs at the crackle of the crust. Slow push-in, golden light. Oven hum, the crust crackling, her laugh."
+"[noanchor] On a wet cobbled street outside the bakery at dawn. Tomas, a man of about forty, grey beard, brown wool coat, a paper bag of bread under his arm, the only person in the street, looks up at the pink sky and smiles. Tracking shot alongside him. Distant traffic, his footsteps, a gull."
+)

@@ -1,0 +1,18 @@
+#!/bin/zsh
+# fetch-weights — resumable, retrying download of one LTX pack into ~/models (2026-09-22).
+# Why a loop: this Wi-Fi drops to bytes/s for minutes at a time; `hf download` resumes
+# partial files, so retrying until it exits 0 is the whole strategy. Xet is disabled
+# because its chunk cache hides progress; plain HTTP shows .incomplete files growing.
+#   fetch-weights dgrauet/ltx-2.5-mlx-q8     (gated: accept the licence on HF first)
+#   fetch-weights dgrauet/ltx-2.3-mlx-q8
+set -u
+repo=$1; name=${repo##*/}; dest=~/models/$name; log=~/repos/local-video/logs/download-$name.log
+mkdir -p $dest ~/repos/local-video/logs
+export HF_HUB_DISABLE_XET=1 HF_HUB_ENABLE_HF_TRANSFER=0
+for i in {1..2000}; do
+  if hf download $repo --local-dir $dest --max-workers 4 >> $log 2>&1; then
+    echo "DONE $(date) $(du -sh $dest | cut -f1)" >> $log; exit 0
+  fi
+  if grep -q "requires approval" $log; then msg="gate: accept the licence at https://huggingface.co/$repo"; else msg="network"; fi
+  echo "retry $i $(date) ($msg) have $(du -sh $dest | cut -f1)" >> $log; sleep 60
+done

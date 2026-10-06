@@ -1,0 +1,1 @@
+name=b2-q4-skill-2 prompt=skill model=vision-q4-400k thinking=medium rc=0 seconds=1409 words=0

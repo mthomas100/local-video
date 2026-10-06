@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+"""still — draw a shot's first frame with Qwen-Image-2.1 (mflux), for keyframe-first image-to-video (2026-09-26).
+
+    still -o still-3.png --size 704x1280 --seed 1031 "<the shot's line> <the film's style sentence>"
+
+The prompt is the shot's own line: quoted dialogue and "he says, ..." are removed (the image model renders text
+well and would paint the words into the frame), and it is framed as a photograph ("vertical 9:16 frame" for a
+portrait size, "no text"). The image is drawn in the target's shape at about 0.9 MP or more, in multiples of 16 (Qwen-Image-2.1 is native
+at 2K and soft at 0.3 MP), then scaled and centre-cropped to --size
+exactly, so vidgen -i gets a frame of the video's size. Offline (HF_HUB_OFFLINE=1), about 1-1.5 min an image on
+this M5 Max, about 46 GB peak: one GPU job at a time, never beside a render or a loaded model.
+See rig/keyframe/IMAGE-MODEL.md for the model choice and rig/bench/char-keyframe.py for the tests.
+
+Modes added 2026-09-27 (iteration 4; evidence in rig/keyframe/IMAGE-MODEL.md):
+    still --place ref.png -o still-3.png --size 704x1280 "<line>"      the reference photo of a place, centre-cropped
+        to the frame's shape and redrawn crisply by Qwen image-to-image at strength 0.7 (the room stays exactly as in the
+        photo; no people are added at that strength), for a shot that opens on the real place and lets the characters
+        walk in. A small reference (the liminal-space reference photos are 320-854 px tall) is otherwise a blurry frame 0.
+    still --ref place.png --ref cast-a.png --ref cast-b.png -o ... "<line>"   FLUX.2 klein 4B multi-reference edit: the
+        characters of the cast images put into the scene of the first image, in the line's composition. One face and
+        costume per character across shots comes from drawing every shot from the same cast portrait.
+    still --portrait -o cast-a.png --size 832x1248 "<one-sentence character description>"   a full-body cast portrait on
+        a plain backdrop (Qwen), drawn once per character by story.sh from the project's CAST array.
+Sentences starting "Sound:" are never drawn: on 2026-09-26 the bible's sound word "a saxophone" became a saxophone
+player, a band and a lone instrument in four stills. Sound belongs in the video prompt only (story.sh's SOUND=).
+"""
+from __future__ import annotations
+
+import argparse
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+MFLUX = Path.home() / "repos/imagegen/.venv/bin/mflux-generate-qwen-2.1"
+MFLUX_EDIT = Path.home() / "repos/imagegen/.venv/bin/mflux-generate-flux2-edit"
+
+
+# The speech and quote patterns live in rig/dialogue.py, shared with the pre-check and the lip-sync meter (2026-09-27:
+# the three had drifted to 100, 40 and 60 characters of voice direction). 2026-09-27 earlier: the older patterns here
+# missed "and says, in a low voice: '...'" and cut at apostrophes, so the image model drew the dialogue as subtitles
+# (liminal-clowns shot 2) and lost Moth's whole description (shot 3).
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "rig"))
+from dialogue import SPEECH, QUOTE  # noqa: E402
+
+
+def still_prompt(line: str, portrait: bool) -> str:
+    t = re.sub(SPEECH + QUOTE, "speaks.", line)                # "and says, in a low voice: '...'" -> "and speaks."
+    t = re.sub(QUOTE, "", t)                                    # any other quoted words
+    t = re.sub(r"(?:^|(?<=[.!?]) )(?:Sound|Sounds|Audio)s?:[^.]*\.?", "", t)   # sound is for the video's audio only
+    t = re.sub(r"\.\s*\.", ".", re.sub(r"\s+", " ", t)).strip(" ,")
+    frame = "vertical 9:16 frame" if portrait else "wide 16:9 frame"
+    return f"Photorealistic cinematic film still, {frame}: {t} A clean full-frame image with no text, no letters and no captions."
+
+
+def draw_size(w: int, h: int) -> tuple[int, int]:
+    """The target shape at about 0.9 MP or more, in multiples of 16 (704x1280 as is; 448x704 drawn at 752x1184)."""
+    s = max(1.0, (900_000 / (w * h)) ** 0.5)
+    return round(w * s / 16) * 16, round(h * s / 16) * 16
+
+
+def fit(src: Path, w: int, h: int, out: Path) -> None:
+    subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(src), "-vf",
+                    f"scale={w}:{h}:force_original_aspect_ratio=increase:flags=lanczos,crop={w}:{h}", str(out)], check=True)
+
+
+def mflux(cmd: list[str]) -> None:
+    r = subprocess.run(cmd, env=dict(os.environ, HF_HUB_OFFLINE="1"), capture_output=True, text=True)
+    if r.returncode:
+        sys.exit(f"still: mflux failed ({r.returncode}): {(r.stderr or r.stdout)[-800:]}")
+
+
+def hold_gpu(reason: str) -> None:
+    """One GPU lock for the Mac (2026-10-04, ~/repos/local-rig/docs/hold.md): run this command inside the GPU hold by
+    re-executing it under `hold run`, which queues behind other GPU jobs, lets model calls in flight finish and unloads
+    the LLM first. Inside story.sh, run-queue.sh or render_and_wait it is already held (HOLD_ID) and nothing happens;
+    with no `hold` installed the command runs as before."""
+    if os.environ.get("HOLD_ID") or not shutil.which("hold"):
+        return
+    os.execvp("hold", ["hold", "run", "--kind", "render", "--reason", reason, "--",
+                       sys.executable, os.path.abspath(sys.argv[0]), *sys.argv[1:]])
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    ap.add_argument("prompt")
+    ap.add_argument("-o", "--output", required=True)
+    ap.add_argument("--size", default="704x1280", help="the video's frame size, WxH")
+    ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--steps", type=int, default=40)
+    ap.add_argument("--place", help="a reference photo of the place: fitted and redrawn crisply, no people added")
+    ap.add_argument("--clean", type=float, default=0.7, help="--place: image-to-image strength (1 = the photo as is)")
+    ap.add_argument("--ref", action="append", default=[], help="reference images for a FLUX.2 klein edit (place first, then cast)")
+    ap.add_argument("--portrait", action="store_true", help="a full-body cast portrait on a plain backdrop")
+    ap.add_argument("--dry-run", action="store_true", help="print the prompt and sizes only")
+    a = ap.parse_args()
+    w, h = (int(x) for x in a.size.lower().split("x"))
+    dw, dh = draw_size(w, h)
+    prompt = still_prompt(a.prompt, h > w)
+    if a.portrait:
+        prompt = ("Photorealistic full-body character portrait, standing, facing the camera, even soft studio light, plain "
+                  f"neutral grey backdrop, the whole figure from head to shoes in frame: {still_prompt(a.prompt, True).split(': ', 1)[1]}")
+    if a.ref:
+        prompt = (f"{prompt} Keep the place exactly as in image 1 (its walls, floor, light and layout). "
+                  + " ".join(f"Character {i} looks exactly as in image {i + 1}: the same face, hair, makeup and costume."
+                             for i in range(1, len(a.ref))) if len(a.ref) > 1 else prompt)
+    if a.dry_run:
+        print(f"draw {dw}x{dh} -> {w}x{h} mode={'place' if a.place else 'ref' if a.ref else 'portrait' if a.portrait else 'text'}\n{prompt}")
+        return
+    hold_gpu("still " + Path(a.output).stem)
+    if subprocess.run(["pgrep", "-f", "ltx-2-mlx generat[e]"], capture_output=True).returncode == 0:
+        sys.exit("still: a render is running; one GPU job at a time")
+    out = Path(a.output).expanduser()
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as t:
+        raw = Path(t) / "raw.png"
+        if a.place:
+            init = Path(t) / "init.png"
+            fit(Path(a.place).expanduser(), dw, dh, init)
+            mflux([str(MFLUX), "--prompt", prompt, "--width", str(dw), "--height", str(dh), "--steps", str(a.steps),
+                   "--seed", str(a.seed), "--image", str(init), str(a.clean), "--output", str(raw)])
+        elif a.ref:
+            refs = []
+            for i, r in enumerate(a.ref):   # the place fitted to the frame's shape, so the edit keeps its layout
+                q = Path(t) / f"ref-{i}.png"
+                fit(Path(r).expanduser(), dw, dh, q) if i == 0 else subprocess.run(["cp", str(Path(r).expanduser()), str(q)], check=True)
+                refs.append(str(q))
+            mflux([str(MFLUX_EDIT), "--model", "flux2-klein-4b", "--image-paths", *refs, "--prompt", prompt,
+                   "--width", str(dw), "--height", str(dh), "--seed", str(a.seed), "--output", str(raw)])
+        else:
+            mflux([str(MFLUX), "--prompt", prompt, "--width", str(dw), "--height", str(dh), "--steps", str(a.steps),
+                   "--seed", str(a.seed), "--output", str(raw)])
+        if not raw.exists():
+            sys.exit("still: no image written")
+        fit(raw, w, h, out)
+    mode = f"place {a.place} strength {a.clean}" if a.place else f"refs {' '.join(a.ref)}" if a.ref else "portrait" if a.portrait else "text"
+    out.with_suffix(".txt").write_text(f"seed {a.seed}, drawn {dw}x{dh}, fitted {w}x{h}, mode {mode}\n{prompt}\n")
+    print(out)
+
+
+if __name__ == "__main__":
+    main()

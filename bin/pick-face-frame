@@ -1,0 +1,23 @@
+#!/bin/zsh
+# pick-face-frame — choose the frame of a clip that best shows a face, for use as an
+# image-to-video reference (2026-09-22). Samples a frame every 0.5 s, scores each with
+# macOS Vision (bin/facescore.swift), writes the winner and a contact sheet of every
+# candidate (winner index printed) so a human can override by copying another frame.
+#   pick-face-frame <video.mp4> <out.png> [want-faces=1]
+set -eu
+video=$1; out=$2; want=${3:-1}
+here=${0:a:h}; tmp=$(mktemp -d)
+ffmpeg -hide_banner -loglevel error -y -i "$video" -vf fps=2 "$tmp/f-%03d.png"
+best=$(swift "$here/facescore.swift" $want "$tmp"/f-*.png | sort -t$'\t' -k1,1 -gr | head -1)
+score=${best%%$'\t'*}; bestpath=${best##*$'\t'}   # not "path": that is zsh's PATH array
+if [ "$score" = "0.00000" ] || [ -z "$bestpath" ]; then
+  echo "pick-face-frame: no frame with $want face(s) found in $video; falling back to 1.5 s" >&2
+  ffmpeg -hide_banner -loglevel error -y -ss 1.5 -i "$video" -frames:v 1 "$out"
+else
+  cp "$bestpath" "$out"
+  n=$(ls "$tmp"/f-*.png | wc -l | tr -d ' '); idx=${${bestpath:t}//[^0-9]/}
+  rows=$(( (n + 7) / 8 ))
+  ffmpeg -hide_banner -loglevel error -y -i "$video" -vf "fps=2,scale=256:-1,tile=8x${rows}" "${out%.png}-sheet.png"
+  echo "pick-face-frame: frame $idx of $n at $(( (idx-1)/2 )).$(( ((idx-1)%2)*5 )) s, score $score → $out (sheet: ${out%.png}-sheet.png)"
+fi
+rm -rf "$tmp"

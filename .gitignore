@@ -1,0 +1,7 @@
+logs/
+*.mp4
+!docs/media/*.mp4
+__pycache__/
+.DS_Store
+.venv/
+*.safetensors

@@ -1,0 +1,1 @@
+name=q4-P1-med prompt=P1-format.txt model=vision-q4-400k thinking=medium rc=0 (complete: 22 shots written; pi killed in a post-write turn at 12:10 for a GPU gap; was rc=143) seconds=836 words=    4290

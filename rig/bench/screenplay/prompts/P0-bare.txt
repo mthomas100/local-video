@@ -1,0 +1,5 @@
+The brief (paraphrased for this public copy; the bench ran on the original dictated wording):
+
+A cohesive, well-directed, roughly three-minute vertical (9:16, HD) video in the form of a local nightly-news report from San Francisco. A reporter interviews people about a clown sighting; each witness describes something the clown did. In the background of every interview the clown is always doing something absurd, never the focus of the shot, and nobody notices. There may be a newsroom and an anchor. Absurdist, humorous, lots of good dialogue and a cohesive narrative. Write the full script and direct exactly what happens in every shot, leaving nothing to the video model. Give it a Halloween theme wherever possible.
+
+Write the screenplay for this film: shot by shot, with every line of dialogue. Write it to the file OUT_PATH with the write tool.

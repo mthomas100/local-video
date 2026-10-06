@@ -1,0 +1,66 @@
+#!/bin/zsh
+# apparatus — link and check the whole film rig as ONE version-controlled apparatus (2026-09-27).
+#
+#   bin/apparatus link    create every external symlink into this repo (idempotent; never replaces a real file)
+#   bin/apparatus check   verify the links, the pinned sibling repos and the models; exit 1 on a hard problem
+#
+# Why: the rig is this repo plus things that must live elsewhere (the skill folders Claude Code and pi scan,
+# pi's extension and agent folders, ~/.local/bin). Until 2026-09-27 setup.sh linked only 2 of the 7 skills and the
+# rest were hand-made links, so a fresh setup silently lost them. Every such path now points INTO this repo, and
+# this manifest is the single list of them. See APPARATUS.md for the whole map.
+set -u
+here=${0:a:h:h}
+# external path <TAB> path in this repo
+LINKS=(
+  "$HOME/.local/bin/vidgen	bin/vidgen"
+  "$HOME/.pi/agent/extensions/film-rig.ts	rig/film-rig.ts"
+  "$HOME/.pi/agent/agents/film-director.md	rig/film-director.md"
+)
+for s in vidgen film studio look-dev cast scene-breakdown movie-prompt screenplay; do
+  LINKS+=("$HOME/.claude/skills/$s	skills/$s" "$HOME/.pi/agent/skills/$s	skills/$s")
+done
+# sibling repos and installs the rig depends on: name <TAB> path <TAB> expected pin <TAB> how it is versioned
+LTX_PIN=7296f236acf12cbf7f7653e3d0acdd4174d7be1e
+DS4_SHA256_PREFIX=6e8131a8b07c76ed   # ds4-server built from branch imgcache 58ab94e (kept installed by the human, 2026-09-26)
+
+bad=0; warn=0
+ok()   { print -r -- "ok    $*"; }
+fail() { print -r -- "FAIL  $*"; bad=1; }
+note() { print -r -- "warn  $*"; warn=1; }
+
+case ${1:-check} in
+link)
+  for l in $LINKS; do
+    dst=${l%%	*}; src=$here/${l#*	}
+    mkdir -p ${dst:h}
+    if [ -L $dst ] || [ ! -e $dst ]; then ln -sfn $src $dst && ok "$dst -> $src"
+    else fail "$dst is a real file or folder, not a link; move it aside by hand, then rerun"; fi
+  done ;;
+check)
+  for l in $LINKS; do
+    dst=${l%%	*}; src=$here/${l#*	}
+    if [ "$(readlink $dst 2>/dev/null)" = "$src" ]; then ok "$dst"; else fail "$dst does not link to $src (run bin/apparatus link)"; fi
+  done
+  h=$(git -C ~/repos/ltx-2-mlx rev-parse HEAD 2>/dev/null)
+  [ "$h" = "$LTX_PIN" ] && ok "ltx-2-mlx at the pinned $LTX_PIN[1,8]" || note "ltx-2-mlx at ${h:-missing}, pinned $LTX_PIN[1,8]: re-measure render times after an upstream update, then move the pin"
+  d=$(shasum -a 256 ~/repos/ds4/ds4-server 2>/dev/null | cut -c1-16)
+  [ "$d" = "$DS4_SHA256_PREFIX" ] && ok "ds4-server is the imgcache build (revert: cp -p ~/repos/ds4/ds4-server.pre-imgcache ~/repos/ds4/ds4-server)" || note "ds4-server sha $d is not the pinned imgcache build (upstream rebuild or revert?)"
+  git -C ~/repos/local-rig rev-parse >/dev/null 2>&1 && ok "local-rig (llama-swap config, pi catalog generator) is a git repo" || fail "~/repos/local-rig missing"
+  # the Mac's GPU hold (2026-10-04, ~/repos/local-rig/docs/hold.md): renders take it; without a gate they fall back to unload-and-settle
+  if command -v hold >/dev/null; then hold status >/dev/null 2>&1 && ok "hold gate answers on :8090 ($(hold status 2>/dev/null | head -1 | cut -c1-70))" || note "hold is installed but no gate answers on :8090: renders fall back to unload-and-settle (local-rig docs/hold.md)"
+  else note "hold not on PATH: renders fall back to unload-and-settle (local-rig docs/hold.md)"; fi
+  [ -x ~/repos/imagegen/.venv/bin/mflux-generate-qwen-2.1 ] && ok "imagegen venv (rebuild: rig/keyframe/setup-imagegen.sh)" || fail "imagegen venv missing: rig/keyframe/setup-imagegen.sh"
+  for m in models--Qwen--Qwen-Image-2.1 models--black-forest-labs--FLUX.2-klein-4B; do
+    [ -d ~/.cache/huggingface/hub/$m ] && ok "weights $m" || note "weights $m not downloaded (rig/keyframe/setup-imagegen.sh)"
+  done
+  [ -d ~/models/ltx-2.5-mlx-q8 ] && ok "LTX-2.5 weights" || fail "~/models/ltx-2.5-mlx-q8 missing (setup.sh)"
+  # the dialogue-sync gate (2026-09-27): story.sh refuses to stitch without it unless SYNC_GATE=off
+  C=~/.cache/local-video
+  [ -x $C/sync-venv/bin/python ] && [ -s $C/syncnet/syncnet_v2.model ] && [ -s $C/syncnet/src/detectors/s3fd/weights/sfd_face.pth ] && [ -s $C/face_landmarker.task ] \
+    && ok "sync instruments (rig/sync/setup.sh)" || fail "sync instruments missing: rig/sync/setup.sh"
+  [ -d ~/.cache/huggingface/hub/models--mlx-community--Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16 ] && ok "voice model for rig/voice/tts.py" || note "Qwen3-TTS VoiceDesign (MLX) not downloaded (rig/sync/setup.sh)"
+  n=$(git -C $here status --short | grep -v '^?? .DS_Store' | wc -l | tr -d ' ')
+  [ $n = 0 ] && ok "local-video working tree clean" || note "local-video has $n uncommitted changes: commit them (one commit per change)"
+  exit $bad ;;
+*) print -u2 "usage: bin/apparatus link|check"; exit 2 ;;
+esac

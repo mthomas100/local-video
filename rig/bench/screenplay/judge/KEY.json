@@ -1,0 +1,10 @@
+{
+ "A": "q4-P2-max64k",
+ "B": "q2-P2-med",
+ "C": "q4-P2-med",
+ "D": "q4-P0-med",
+ "E": "q4-P1-med",
+ "F": "qwen38-P2",
+ "G": "q4-P3-med",
+ "H": "claude"
+}

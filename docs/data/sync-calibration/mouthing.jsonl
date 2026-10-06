@@ -1,0 +1,66 @@
+{"clip": "ctl/s11-mute1.5s.mp4", "conf": 9.23, "offset_ms": -44, "voiced_s": 2.54, "silent_s": 4.29, "art_run_s": 0.79, "art_share": 0.34, "art_s": 1.46, "voiced_still_run_s": 0.21}
+{"clip": "ctl/s11-mute2.5s.mp4", "conf": 8.45, "offset_ms": -35, "voiced_s": 1.58, "silent_s": 5.29, "art_run_s": 1.08, "art_share": 0.43, "art_s": 2.29, "voiced_still_run_s": 0.21}
+{"clip": "ctl/s16-mute1.5s.mp4", "conf": 8.27, "offset_ms": -49, "voiced_s": 2.46, "silent_s": 4.0, "art_run_s": 0.62, "art_share": 0.27, "art_s": 1.08, "voiced_still_run_s": 0.17}
+{"clip": "ctl/s16-mute2.5s.mp4", "conf": 8.35, "offset_ms": -49, "voiced_s": 2.46, "silent_s": 4.0, "art_run_s": 0.62, "art_share": 0.27, "art_s": 1.08, "voiced_still_run_s": 0.17}
+{"clip": "ctl/s20-mute1.5s.mp4", "conf": 8.58, "offset_ms": -44, "voiced_s": 1.71, "silent_s": 5.17, "art_run_s": 0.67, "art_share": 0.16, "art_s": 0.83, "voiced_still_run_s": 0.0}
+{"clip": "ctl/s20-mute2.5s.mp4", "conf": 7.68, "offset_ms": -44, "voiced_s": 1.08, "silent_s": 5.83, "art_run_s": 0.75, "art_share": 0.28, "art_s": 1.62, "voiced_still_run_s": 0.0}
+{"clip": "ctl/s3-mute1.5s.mp4", "conf": 8.38, "offset_ms": -29, "voiced_s": 1.75, "silent_s": 5.42, "art_run_s": 1.5, "art_share": 0.28, "art_s": 1.5, "voiced_still_run_s": 0.12}
+{"clip": "ctl/s3-mute2.5s.mp4", "conf": 8.18, "offset_ms": -29, "voiced_s": 1.75, "silent_s": 5.42, "art_run_s": 1.5, "art_share": 0.28, "art_s": 1.5, "voiced_still_run_s": 0.12}
+{"clip": "liminal-clowns/scene-2.mp4", "conf": 8.78, "offset_ms": -16, "voiced_s": 3.29, "silent_s": 3.71, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.12}
+{"clip": "liminal-clowns/scene-3.mp4", "conf": 9.12, "offset_ms": -23, "voiced_s": 3.04, "silent_s": 3.88, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.12}
+{"clip": "liminal-clowns/scene-6.mp4", "conf": 7.0, "offset_ms": -14, "voiced_s": 3.96, "silent_s": 2.54, "art_run_s": 0.38, "art_share": 0.3, "art_s": 0.75, "voiced_still_run_s": 0.08}
+{"clip": "liminal-clowns/scene-7.mp4", "conf": 8.55, "offset_ms": -27, "voiced_s": 3.46, "silent_s": 3.25, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.08}
+{"clip": "liminal-clowns/scene-10.mp4", "conf": 9.26, "offset_ms": -41, "voiced_s": 3.29, "silent_s": 3.79, "art_run_s": 0.04, "art_share": 0.01, "art_s": 0.04, "voiced_still_run_s": 0.08}
+{"clip": "liminal-clowns/scene-11.mp4", "conf": 8.73, "offset_ms": -44, "voiced_s": 3.96, "silent_s": 2.83, "art_run_s": 0.04, "art_share": 0.03, "art_s": 0.08, "voiced_still_run_s": 0.21}
+{"clip": "liminal-clowns/scene-15.mp4", "conf": 6.33, "offset_ms": -51, "voiced_s": 3.67, "silent_s": 2.96, "art_run_s": 0.08, "art_share": 0.03, "art_s": 0.08, "voiced_still_run_s": 0.17}
+{"clip": "liminal-clowns/scene-16.mp4", "conf": 8.1, "offset_ms": -46, "voiced_s": 3.62, "silent_s": 2.71, "art_run_s": 0.04, "art_share": 0.02, "art_s": 0.04, "voiced_still_run_s": 0.17}
+{"clip": "liminal-clowns/scene-19.mp4", "conf": 8.85, "offset_ms": -47, "voiced_s": 4.08, "silent_s": 2.33, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.12}
+{"clip": "liminal-clowns/scene-20.mp4", "conf": 8.38, "offset_ms": -46, "voiced_s": 2.83, "silent_s": 3.92, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.17}
+{"clip": "halloween-clowns-sf/scene-5.mp4", "conf": 7.71, "offset_ms": -61, "voiced_s": 1.38, "silent_s": 5.96, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.12}
+{"clip": "halloween-clowns-sf/scene-6.mp4", "conf": 9.55, "offset_ms": -120, "voiced_s": 1.42, "silent_s": 5.38, "art_run_s": 0.12, "art_share": 0.02, "art_s": 0.12, "voiced_still_run_s": 0.12}
+{"clip": "halloween-clowns-sf/scene-8.mp4", "conf": 2.68, "offset_ms": -81, "voiced_s": 1.71, "silent_s": 5.21, "art_run_s": 0.29, "art_share": 0.14, "art_s": 0.75, "voiced_still_run_s": 0.12}
+{"clip": "halloween-clowns-sf/scene-9.mp4", "conf": 7.84, "offset_ms": -81, "voiced_s": 1.08, "silent_s": 6.25, "art_run_s": 0.17, "art_share": 0.09, "art_s": 0.58, "voiced_still_run_s": 0.04}
+{"clip": "halloween-clowns-sf/scene-11.mp4", "conf": 1.83, "offset_ms": 625, "voiced_s": 0.75, "silent_s": 2.29}
+{"clip": "halloween-clowns-sf/scene-12.mp4", "conf": 5.71, "offset_ms": 575, "voiced_s": 0.79, "silent_s": 7.12, "art_run_s": 1.75, "art_share": 0.76, "art_s": 5.42, "voiced_still_run_s": 0.17}
+{"clip": "halloween-clowns-sf/scene-13.mp4", "conf": 3.19, "offset_ms": -87, "voiced_s": 2.79, "silent_s": 3.38, "art_run_s": 0.75, "art_share": 0.57, "art_s": 1.92, "voiced_still_run_s": 0.0}
+{"clip": "halloween-clowns-sf/scene-16.mp4", "conf": 8.49, "offset_ms": -56, "voiced_s": 1.08, "silent_s": 6.21, "art_run_s": 0.08, "art_share": 0.03, "art_s": 0.21, "voiced_still_run_s": 0.0}
+{"clip": "halloween-clowns-sf-portrait/scene-5.mp4", "conf": 8.39, "offset_ms": -44, "voiced_s": 2.0, "silent_s": 4.96, "art_run_s": 0.04, "art_share": 0.01, "art_s": 0.04, "voiced_still_run_s": 0.33}
+{"clip": "halloween-clowns-sf-portrait/scene-6.mp4", "conf": 10.28, "offset_ms": -30, "voiced_s": 0.88, "silent_s": 6.29, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.08}
+{"clip": "halloween-clowns-sf-portrait/scene-8.mp4", "conf": 2.83, "offset_ms": 7, "voiced_s": 2.54, "silent_s": 4.62, "art_run_s": 0.71, "art_share": 0.67, "art_s": 3.08, "voiced_still_run_s": 0.0}
+{"clip": "halloween-clowns-sf-portrait/scene-9.mp4", "conf": 9.74, "offset_ms": -37, "voiced_s": 1.21, "silent_s": 1.46, "art_run_s": 0.25, "art_share": 0.31, "art_s": 0.46, "voiced_still_run_s": 0.04}
+{"clip": "~/Videos/vidgen/halloween-clowns-sf-portrait/scene-11.mp4", "err": "few lips"}
+{"clip": "halloween-clowns-sf-portrait/scene-12.mp4", "conf": 4.69, "offset_ms": -625, "voiced_s": 0.83, "silent_s": 2.5, "art_run_s": 0.46, "art_share": 0.58, "art_s": 1.46, "voiced_still_run_s": 0.0}
+{"clip": "halloween-clowns-sf-portrait/scene-13.mp4", "conf": 2.98, "offset_ms": -56, "voiced_s": 5.62, "silent_s": 1.08, "art_run_s": 0.83, "art_share": 0.88, "art_s": 0.96, "voiced_still_run_s": 0.08}
+{"clip": "halloween-clowns-sf-portrait/scene-16.mp4", "conf": 6.02, "offset_ms": -25, "voiced_s": 2.25, "silent_s": 4.79, "art_run_s": 0.21, "art_share": 0.04, "art_s": 0.21, "voiced_still_run_s": 0.83}
+{"clip": "Actor_01/01-01-01-01-01-01-01.mp4", "conf": 5.94, "offset_ms": -67, "voiced_s": 0.83, "silent_s": 1.5, "art_run_s": 0.17, "art_share": 0.13, "art_s": 0.2, "voiced_still_run_s": 0.0}
+{"clip": "Actor_01/01-01-04-01-01-01-01.mp4", "conf": 4.09, "offset_ms": -80, "voiced_s": 1.1, "silent_s": 1.47, "art_run_s": 0.27, "art_share": 0.18, "art_s": 0.27, "voiced_still_run_s": 0.0}
+{"clip": "Actor_01/01-01-04-02-01-01-01.mp4", "conf": 4.84, "offset_ms": -87, "voiced_s": 1.23, "silent_s": 1.5, "art_run_s": 0.27, "art_share": 0.22, "art_s": 0.33, "voiced_still_run_s": 0.0}
+{"clip": "Actor_01/01-01-05-01-01-01-01.mp4", "conf": 7.8, "offset_ms": -75, "voiced_s": 1.6, "silent_s": 1.4, "art_run_s": 0.2, "art_share": 0.14, "art_s": 0.2, "voiced_still_run_s": 0.07}
+{"clip": "Actor_01/01-01-05-02-01-01-01.mp4", "conf": 7.16, "offset_ms": -68, "voiced_s": 1.97, "silent_s": 1.43, "art_run_s": 0.27, "art_share": 0.19, "art_s": 0.27, "voiced_still_run_s": 0.03}
+{"clip": "Actor_02/01-01-01-01-01-01-02.mp4", "conf": 9.45, "offset_ms": -71, "voiced_s": 1.0, "silent_s": 1.57, "art_run_s": 0.47, "art_share": 0.34, "art_s": 0.53, "voiced_still_run_s": 0.0}
+{"clip": "Actor_02/01-01-04-01-01-01-02.mp4", "conf": 9.08, "offset_ms": -90, "voiced_s": 1.13, "silent_s": 1.67, "art_run_s": 0.33, "art_share": 0.2, "art_s": 0.33, "voiced_still_run_s": 0.0}
+{"clip": "Actor_02/01-01-04-02-01-01-02.mp4", "conf": 7.4, "offset_ms": -73, "voiced_s": 1.07, "silent_s": 1.63, "art_run_s": 0.2, "art_share": 0.12, "art_s": 0.2, "voiced_still_run_s": 0.07}
+{"clip": "Actor_02/01-01-05-01-01-01-02.mp4", "conf": 9.5, "offset_ms": -82, "voiced_s": 1.57, "silent_s": 1.4, "art_run_s": 0.23, "art_share": 0.26, "art_s": 0.37, "voiced_still_run_s": 0.03}
+{"clip": "Actor_02/01-01-05-02-01-01-02.mp4", "conf": 10.02, "offset_ms": -80, "voiced_s": 1.8, "silent_s": 1.43, "art_run_s": 0.23, "art_share": 0.23, "art_s": 0.33, "voiced_still_run_s": 0.0}
+{"clip": "Actor_03/01-01-01-01-01-01-03.mp4", "conf": 7.4, "offset_ms": -88, "voiced_s": 1.07, "silent_s": 1.47, "art_run_s": 0.2, "art_share": 0.18, "art_s": 0.27, "voiced_still_run_s": 0.0}
+{"clip": "Actor_03/01-01-04-01-01-01-03.mp4", "conf": 6.46, "offset_ms": -85, "voiced_s": 0.93, "silent_s": 1.57, "art_run_s": 0.2, "art_share": 0.15, "art_s": 0.23, "voiced_still_run_s": 0.0}
+{"clip": "ab-sync-0927/s11-directed-seed411-fast.mp4", "conf": 9.65, "offset_ms": -41, "voiced_s": 3.42, "silent_s": 3.33, "art_run_s": 0.17, "art_share": 0.09, "art_s": 0.29, "voiced_still_run_s": 0.08}
+{"clip": "ab-sync-0927/s11-directed-seed912-fast.mp4", "conf": 5.76, "offset_ms": -50, "voiced_s": 3.75, "silent_s": 1.46, "art_run_s": 0.08, "art_share": 0.11, "art_s": 0.17, "voiced_still_run_s": 0.21}
+{"clip": "ab-sync-0927/s11-orig-seed411-fast.mp4", "conf": 8.77, "offset_ms": -44, "voiced_s": 3.96, "silent_s": 2.83, "art_run_s": 0.04, "art_share": 0.03, "art_s": 0.08, "voiced_still_run_s": 0.21}
+{"clip": "ab-sync-0927/s11-orig-seed912-fast.mp4", "conf": 8.57, "offset_ms": -74, "voiced_s": 3.92, "silent_s": 2.71, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.29}
+{"clip": "ab-sync-0927/s20-a2v-seed411.mp4", "conf": 6.14, "offset_ms": -124, "voiced_s": 2.54, "silent_s": 4.21, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.0}
+{"clip": "ab-sync-0927/s20-directed-seed411-fast.mp4", "conf": 7.08, "offset_ms": -53, "voiced_s": 2.54, "silent_s": 3.88, "art_run_s": 0.08, "art_share": 0.02, "art_s": 0.08, "voiced_still_run_s": 0.0}
+{"clip": "ab-sync-0927/s20-directed-seed411-quality.mp4", "conf": 7.51, "offset_ms": -52, "voiced_s": 2.88, "silent_s": 3.62, "art_run_s": 0.12, "art_share": 0.08, "art_s": 0.29, "voiced_still_run_s": 0.0}
+{"clip": "ab-sync-0927/s20-directed-seed912-fast.mp4", "conf": 6.6, "offset_ms": -59, "voiced_s": 2.0, "silent_s": 5.17, "art_run_s": 0.21, "art_share": 0.04, "art_s": 0.21, "voiced_still_run_s": 0.0}
+{"clip": "ab-sync-0927/s20-orig-seed411-fast.mp4", "conf": 8.36, "offset_ms": -46, "voiced_s": 2.83, "silent_s": 3.92, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.17}
+{"clip": "ab-sync-0927/s20-orig-seed912-fast.mp4", "conf": 6.8, "offset_ms": -54, "voiced_s": 3.38, "silent_s": 3.17, "art_run_s": 0.12, "art_share": 0.07, "art_s": 0.21, "voiced_still_run_s": 0.04}
+{"clip": "ab-sync-0927/s3-directed-seed414-fast.mp4", "conf": 7.7, "offset_ms": -51, "voiced_s": 3.42, "silent_s": 3.33, "art_run_s": 0.38, "art_share": 0.11, "art_s": 0.38, "voiced_still_run_s": 0.08}
+{"clip": "ab-sync-0927/s3-directed-seed912-fast.mp4", "conf": 8.79, "offset_ms": -32, "voiced_s": 3.08, "silent_s": 4.04, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.08}
+{"clip": "ab-sync-0927/s3-orig-seed414-fast.mp4", "conf": 9.07, "offset_ms": -22, "voiced_s": 3.04, "silent_s": 3.88, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.12}
+{"clip": "ab-sync-0927/s3-orig-seed912-fast.mp4", "conf": 9.39, "offset_ms": -33, "voiced_s": 2.62, "silent_s": 4.17, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.12}
+{"clip": "~/Videos/vidgen/ab-sync-0927/s7-a2v-seed411.mp4", "err": "few lips"}
+{"clip": "~/Videos/vidgen/ab-sync-0927/s7-directed-seed411-fast.mp4", "err": "few lips"}
+{"clip": "~/Videos/vidgen/ab-sync-0927/s7-directed-seed411-quality.mp4", "err": "few lips"}
+{"clip": "ab-sync-0927/s7-directed-seed912-fast.mp4", "conf": 2.1, "offset_ms": -43, "voiced_s": 3.38, "silent_s": 1.92, "art_run_s": 0.38, "art_share": 0.54, "art_s": 1.04, "voiced_still_run_s": 0.08}
+{"clip": "ab-sync-0927/s7-orig-seed411-fast.mp4", "conf": 8.54, "offset_ms": -27, "voiced_s": 3.46, "silent_s": 3.25, "art_run_s": 0.0, "art_share": 0.0, "art_s": 0.0, "voiced_still_run_s": 0.08}
+{"clip": "ab-sync-0927/s7-orig-seed912-fast.mp4", "conf": 7.56, "offset_ms": -48, "voiced_s": 2.46, "silent_s": 4.12, "art_run_s": 0.46, "art_share": 0.15, "art_s": 0.62, "voiced_still_run_s": 0.0}

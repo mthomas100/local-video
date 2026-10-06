@@ -1,0 +1,1 @@
+name=qwen38-P2 prompt=P2-craft.txt model=qwen38 thinking=medium rc=0 seconds=622 words=    6320
